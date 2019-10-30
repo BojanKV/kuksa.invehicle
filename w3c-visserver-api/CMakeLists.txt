@@ -62,6 +62,10 @@ target_include_directories(jsonpath SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 add_library(jwt-cpp INTERFACE)
 target_include_directories(jwt-cpp SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/../3rd-party-libs/jwt-cpp)
 
+add_library(trompeloeil INTERFACE)
+target_include_directories(trompeloeil SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/../3rd-party-libs/trompeloeil)
+
+
 ######
 # System library includes
 
@@ -110,7 +114,7 @@ if(UNIT_TEST)
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
    )
 
-   target_link_libraries(${UNITTEST_EXE_NAME} LINK_PRIVATE jwt-cpp jsonpath jsoncons)
+   target_link_libraries(${UNITTEST_EXE_NAME} LINK_PRIVATE jwt-cpp jsonpath jsoncons trompeloeil)
 
    target_link_libraries(${UNITTEST_EXE_NAME} LINK_PRIVATE Threads::Threads)
 
