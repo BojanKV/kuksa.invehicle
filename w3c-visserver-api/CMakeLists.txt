@@ -107,7 +107,7 @@ if(UNIT_TEST)
 
    add_executable(${UNITTEST_EXE_NAME} ${TEST_FILES})
 
-   target_compile_features(${UNITTEST_EXE_NAME} PUBLIC cxx_std_11)
+   target_compile_features(${UNITTEST_EXE_NAME} PUBLIC cxx_std_14)
 
    target_include_directories(${UNITTEST_EXE_NAME} PRIVATE
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -142,7 +142,7 @@ endif(UNIT_TEST)
 if(BUILD_TEST_CLIENT)
    add_executable(${TESTCLIENT_EXE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/test/testclient.cpp)
 
-   target_compile_features(${TESTCLIENT_EXE_NAME} PUBLIC cxx_std_11)
+   target_compile_features(${TESTCLIENT_EXE_NAME} PUBLIC cxx_std_14)
 
    target_link_libraries(${TESTCLIENT_EXE_NAME} LINK_PRIVATE jwt-cpp jsonpath jsoncons)
    target_include_directories(${TESTCLIENT_EXE_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/jsoncons)
@@ -165,7 +165,7 @@ else()
    add_executable(${SERVER_EXE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${STANDARD_SRC_FILES})
 endif(NOT BUILD_EXE)
 
-target_compile_features(${SERVER_EXE_NAME} PUBLIC cxx_std_11)
+target_compile_features(${SERVER_EXE_NAME} PUBLIC cxx_std_14)
 
 target_include_directories(${SERVER_EXE_NAME}
   PUBLIC
