@@ -16,14 +16,14 @@
 #include <unistd.h> // usleep
 #include <string>
 
-#include <jsoncons_ext/jsonpath/json_query.hpp>
+#include <jsonpath/json_query.hpp>
 
 #include "AccessChecker.hpp"
 #include "Authenticator.hpp"
 #include "exception.hpp"
 #include "visconf.hpp"
+#include "WsChannel.hpp"
 #include "VssDatabase.hpp"
-#include "WsServer.hpp"
 #include "ILogger.hpp"
 
 using namespace std;
