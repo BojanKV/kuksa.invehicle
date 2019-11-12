@@ -14,6 +14,7 @@
 #ifndef __SUBSCRIPTIONHANDLER_H__
 #define __SUBSCRIPTIONHANDLER_H__
 
+#include <condition_variable>
 #include <mutex>
 #include <queue>
 #include <unordered_map>
@@ -37,7 +38,7 @@ class WsServer;
 class ILogger;
 
 // Subscription ID: Client ID
-typedef std::unordered_map<uint32_t, uint64_t> subscriptions_t;
+typedef std::unordered_map<SubscriptionId, ConnectionId> subscriptions_t;
 
 // Subscription UUID
 typedef std::string uuid_t;
@@ -49,10 +50,12 @@ class SubscriptionHandler : public ISubscriptionHandler {
   std::shared_ptr<IServer> server;
   std::shared_ptr<IAuthenticator> validator;
   std::shared_ptr<IAccessChecker> checkAccess;
-  std::mutex subMutex;
+  mutable std::mutex subMutex;
+  mutable std::mutex accessMutex;
+  std::condition_variable c;
   std::thread subThread;
   bool threadRun;
-  std::queue<std::pair<uint32_t, jsoncons::json>> buffer;
+  std::queue<std::tuple<SubscriptionId, ConnectionId, jsoncons::json>> buffer;
 
  public:
   SubscriptionHandler(std::shared_ptr<ILogger> loggerUtil,
@@ -61,11 +64,11 @@ class SubscriptionHandler : public ISubscriptionHandler {
                       std::shared_ptr<IAccessChecker> checkAccess);
   ~SubscriptionHandler();
 
-  uint64_t subscribe(WsChannel& channel,
-                     std::shared_ptr<IVssDatabase> db,
-                     const std::string &path);
-  int unsubscribe(uint32_t subscribeID);
-  int unsubscribeAll(uint32_t connectionID);
+  SubscriptionId subscribe(WsChannel& channel,
+                           std::shared_ptr<IVssDatabase> db,
+                           const std::string &path);
+  int unsubscribe(SubscriptionId subscribeID);
+  int unsubscribeAll(ConnectionId connectionID);
   int updateByUUID(const std::string &signalUUID, const jsoncons::json &value);
   int updateByPath(const std::string &path, const jsoncons::json &value);
   std::shared_ptr<IServer> getServer();
