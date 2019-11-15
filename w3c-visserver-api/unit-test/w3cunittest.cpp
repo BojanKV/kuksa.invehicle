@@ -78,7 +78,7 @@ w3cunittest unittestObj(false);
 w3cunittest::w3cunittest(bool secure) {
   std::string docRoot{"/vss/api/v1/"};
 
-  logger = std::make_shared<BasicLogger>(static_cast<uint8_t>(LogLevel::ALL));
+  logger = std::make_shared<BasicLogger>(static_cast<uint8_t>(LogLevel::NONE));
   restHandler = std::make_shared<RestV1ApiHandler>(logger, docRoot);
   auto server = std::make_shared<WebSockHttpFlexServer>(logger, std::move(restHandler));
   httpServer = server;
